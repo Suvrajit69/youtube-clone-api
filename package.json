@@ -1,0 +1,16 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "description": "youtube clone api",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "youtube",
+    "MERN",
+    "api"
+  ],
+  "author": "Suvrajit Mondal",
+  "license": "ISC"
+}
