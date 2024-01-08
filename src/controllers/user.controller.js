@@ -7,7 +7,7 @@ import { ApiResponse } from "../utils/apiResponse.js";
 const generateAccessAndRefreshTokens = async (userId) => {
   try {
     const user = await User.findById(userId);
-
+    console.log(user.methods);
     const accessToken = user.generateAccessToken();
     const refreshToken = user.generateRefreshToken();
 
@@ -101,9 +101,9 @@ const loginUser = asyncHandler(async (req, res) => {
   // send cookie
 
   const { email, userName, password } = req.body;
-
-  if (!userName || !email) {
-    throw new ApiError(400, "userName or password is error");
+console.log(email, userName)
+  if (!userName && !email) {
+    throw new ApiError(400, "userName or password222 is error");
   }
 
   const user = await User.findOne({
@@ -138,19 +138,20 @@ const loginUser = asyncHandler(async (req, res) => {
     .cookie("accessToken", accessToken, options)
     .cookie("refreshToken", refreshToken, options)
     .json(
-      new ApiError(
+      new ApiResponse(
         200,
         {
           user: loggedInUser,
           accessToken,
           refreshToken,
         },
-        "User logged is successflly"
+        "User logged in successflly"
       )
     );
 });
 
 const logoutUser = asyncHandler(async (req, res) => {
+  console.log(req.user.id)
   await User.findByIdAndUpdate(
     req.user._id,
     {
@@ -169,10 +170,10 @@ const logoutUser = asyncHandler(async (req, res) => {
   };
 
   return res
-  .status(200)
-  .clearCookie("accessToken", options)
-  .clearCookie("refreshToken", options)
-  .json(new ApiResponse(200, {}, "User logged Out"))
+    .status(200)
+    .clearCookie("accessToken", options)
+    .clearCookie("refreshToken", options)
+    .json(new ApiResponse(200, {}, "User logged Out"));
 });
 
 export { registerUser, loginUser, logoutUser };
